@@ -45,12 +45,16 @@ atomic_tests:
   - macos
   - linux
   executor:
-    steps: |
-      1. export HISTCONTROL=ignoreboth
-      2. echo export "HISTCONTROL=ignoreboth" >> ~/.bash_profile
-      3. ls
-      4. whoami > recon.txt
-    name: manual
+    name: bash
+    elevation_required: false
+    command: |
+      export HISTCONTROL=ignoreboth
+      echo export "HISTCONTROL=ignoreboth" >> ~/.bash_profile
+      ls
+      whoami > recon.txt
+    cleanup_command: |
+      sed -i '/^export "HISTCONTROL=ignoreboth"/d' ~/.bash_profile
+      rm recon.txt
 - name: Clear bash history
   auto_generated_guid: 878794f7-c511-4199-a950-8c28b3ed8e5b
   description: |
